@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
+import AnimatedButton from '../components/AnimatedButton';
 import backgroundImg from '../assets/Background.png';
 
 export default function LandingPage() {
@@ -48,21 +49,10 @@ export default function LandingPage() {
                         }}>
                             Give a local dog or cat the chance they’ve been waiting for.
                         </p>
-                        <button onClick={() => navigate('/pets')} className="btn" style={{
-                            fontSize: '1.1rem',
-                            padding: '16px 32px',
-                            border: '2px solid #333',
-                            borderRadius: '50px',
-                            background: 'transparent',
-                            color: '#333',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            cursor: 'pointer'
-                        }}>
-                            Meet our PinPals
-                            <span>→</span>
-                        </button>
+                        <AnimatedButton
+                            text="Meet our PinPals"
+                            onClick={() => navigate('/pets')}
+                        />
                     </div>
                 </div>
             </section>
