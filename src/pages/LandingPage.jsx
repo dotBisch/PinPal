@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
+import backgroundImg from '../assets/Background.png';
 
 export default function LandingPage() {
     const navigate = useNavigate();
@@ -8,34 +9,60 @@ export default function LandingPage() {
         <div className="landing-page">
             {/* Hero Section */}
             <section className="hero section" style={{
-                background: 'linear-gradient(to right, #FFF3E0, #fff)',
-                paddingTop: '60px',
-                paddingBottom: '80px'
+                backgroundColor: 'var(--color-primary)',
+                backgroundImage: `url(${backgroundImg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'right center', /* Keep dog visible on the right */
+                backgroundRepeat: 'no-repeat',
+                minHeight: '820px',
+                paddingTop: 'var(--nav-height)', /* Space for fixed navbar */
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative'
             }}>
-                <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '40px', flexWrap: 'wrap' }}>
-                    <div className="hero-content" style={{ flex: 1, minWidth: '300px' }}>
-                        <h1 className="animate-fade-in" style={{ marginBottom: '24px' }}>
-                            PinPal: Where Every Rescue Finds a <span style={{ color: '#FFC107' }}>Home</span>.
+                <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+
+                    {/* Hero Content */}
+                    <div className="hero-content" style={{
+                        flex: 1,
+                        maxWidth: '700px', /* Ensure text stays to the left */
+                        zIndex: 2,
+                        paddingRight: '20px' /* Small gap just in case */
+                    }}>
+                        <h1 className="animate-fade-in" style={{
+                            fontFamily: 'var(--font-body)',
+                            fontWeight: 800,
+                            fontSize: 'clamp(4rem, 8.2vw, 6.875rem)', /* Target 119px */
+                            lineHeight: 1.1,
+                            color: '#333',
+                            marginBottom: '24px'
+                        }}>
+                            <span style={{ color: '#D32F2F' }}>Love</span> Has<br />No Pedigree
                         </h1>
-                        <p className="animate-fade-in" style={{ fontSize: '1.2rem', color: '#666', marginBottom: '32px', maxWidth: '500px' }}>
-                            We bridge the gap between street-smart survivors and loving families. Adopt an Aspin or Puspin today and find your soulmate.
+                        <p className="animate-fade-in" style={{
+                            fontSize: '1.375rem',
+                            color: '#444',
+                            marginBottom: '40px',
+                            maxWidth: '600px',
+                            fontWeight: 600
+                        }}>
+                            Give a local dog or cat the chance they’ve been waiting for.
                         </p>
-                        <div className="hero-buttons animate-fade-in" style={{ display: 'flex', gap: '16px' }}>
-                            <button onClick={() => navigate('/pets')} className="btn btn-primary" style={{ fontSize: '1.1rem', padding: '16px 32px' }}>
-                                Adopt a Friend
-                            </button>
-                            <button onClick={() => navigate('/donate')} className="btn btn-outline" style={{ fontSize: '1.1rem', padding: '16px 32px' }}>
-                                Donate
-                            </button>
-                        </div>
-                    </div>
-                    <div className="hero-image" style={{ flex: 1, minWidth: '300px' }}>
-                        <img
-                            src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80"
-                            alt="Happy adopted dog"
-                            className="animate-fade-in"
-                            style={{ width: '100%', borderRadius: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
-                        />
+                        <button onClick={() => navigate('/pets')} className="btn" style={{
+                            fontSize: '1.1rem',
+                            padding: '16px 32px',
+                            border: '2px solid #333',
+                            borderRadius: '50px',
+                            background: 'transparent',
+                            color: '#333',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            Meet our PinPals
+                            <span>→</span>
+                        </button>
                     </div>
                 </div>
             </section>
