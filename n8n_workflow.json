@@ -1,0 +1,94 @@
+{
+    "name": "PinPal Contact Automation",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "pinpal-contact",
+                "options": {}
+            },
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                460,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "model": "gpt-4",
+                "messages": {
+                    "values": [
+                        {
+                            "role": "system",
+                            "content": "You are a helpful assistant for PinPal, a pet adoption agency for Aspins and Puspins. A user has sent a message via the contact form. Please draft a friendly, professional email reply acknowledging their message and promising a follow-up. Keep it warm and encouraging."
+                        },
+                        {
+                            "role": "user",
+                            "content": "Name: {{$json[\"body\"][\"name\"]}}\nEmail: {{$json[\"body\"][\"email\"]}}\nMessage: {{$json[\"body\"][\"message\"]}}"
+                        }
+                    ]
+                }
+            },
+            "name": "OpenAI",
+            "type": "n8n-nodes-base.openAi",
+            "typeVersion": 1,
+            "position": [
+                680,
+                300
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "YOUR_OPENAI_CREDENTIAL_ID",
+                    "name": "OpenAI account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "to": "={{$json[\"body\"][\"email\"]}}",
+                "subject": "Thank you for contacting PinPal!",
+                "text": "={{$node[\"OpenAI\"].json[\"choices\"][0][\"message\"][\"content\"]}}",
+                "options": {}
+            },
+            "name": "Send Email",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 1,
+            "position": [
+                900,
+                300
+            ],
+            "credentials": {
+                "smtp": {
+                    "id": "YOUR_SMTP_CREDENTIAL_ID",
+                    "name": "SMTP account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "OpenAI",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI": {
+            "main": [
+                [
+                    {
+                        "node": "Send Email",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

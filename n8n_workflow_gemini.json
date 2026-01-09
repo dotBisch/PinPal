@@ -1,0 +1,96 @@
+{
+    "name": "PinPal Contact Automation (Gemini)",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "pinpal-contact",
+                "options": {}
+            },
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                460,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "modelId": "gemini-pro",
+                "options": {}
+            },
+            "name": "Google Gemini",
+            "type": "n8n-nodes-base.googleGemini",
+            "typeVersion": 1,
+            "position": [
+                680,
+                300
+            ],
+            "credentials": {
+                "googleGeminiApi": {
+                    "id": "YOUR_GEMINI_CREDENTIAL_ID",
+                    "name": "Google Gemini account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=You are a helpful assistant for PinPal, a pet adoption agency. Draft a friendly email reply to: {{$json[\"body\"][\"name\"]}} who sent this message: \"{{$json[\"body\"][\"message\"]}}\". Keep it warm and professional."
+            },
+            "name": "Generate Reply",
+            "type": "n8n-nodes-base.googleGeminiChat",
+            "typeVersion": 1,
+            "position": [
+                680,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "to": "={{$json[\"body\"][\"email\"]}}",
+                "subject": "Thank you for contacting PinPal!",
+                "text": "={{$node[\"Google Gemini\"].json[\"content\"]}}",
+                "options": {}
+            },
+            "name": "Send Email",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 1,
+            "position": [
+                900,
+                300
+            ],
+            "credentials": {
+                "smtp": {
+                    "id": "YOUR_SMTP_CREDENTIAL_ID",
+                    "name": "SMTP account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Google Gemini",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Google Gemini": {
+            "main": [
+                [
+                    {
+                        "node": "Send Email",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}
