@@ -52,6 +52,11 @@ export default function LandingPage() {
                         <AnimatedButton
                             text="Meet our PinPals"
                             onClick={() => navigate('/pets')}
+                            style={{
+                                width: '267px',
+                                height: '60px',
+                                fontSize: '1.25rem'
+                            }}
                         />
                     </div>
                 </div>

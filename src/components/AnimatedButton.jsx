@@ -6,6 +6,7 @@ export default function AnimatedButton({
     onClick,
     className = '',
     type = 'button',
+    style = {},
 }) {
     return (
         <motion.button
@@ -20,7 +21,7 @@ export default function AnimatedButton({
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '12px',
-                padding: '16px 32px',
+                padding: '0', /* Reset padding since we are setting fixed dimensions */
                 border: '2px solid #222',
                 borderRadius: '9999px',
                 backgroundColor: 'transparent',
@@ -30,7 +31,8 @@ export default function AnimatedButton({
                 fontFamily: 'var(--font-body)',
                 fontWeight: 700,
                 fontSize: '1rem',
-                textDecoration: 'none'
+                textDecoration: 'none',
+                ...style
             }}
         >
             {/* Background Fill Animation */}
@@ -98,4 +100,5 @@ AnimatedButton.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.string,
     type: PropTypes.string,
+    style: PropTypes.object,
 };
